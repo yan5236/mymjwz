@@ -2,6 +2,9 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+/* Added custom variants for ocean and sunset themes */
+@custom-variant ocean (&:is(.ocean *));
+@custom-variant sunset (&:is(.sunset *));
 
 :root {
   /* Updated color tokens to match design brief for quotes website */
@@ -74,6 +77,78 @@
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #334155;
   --sidebar-ring: rgba(25, 118, 210, 0.5);
+}
+
+/* Added ocean theme with blue-green color palette */
+.ocean {
+  --background: #f0fdfa;
+  --foreground: #134e4a;
+  --card: #ccfbf1;
+  --card-foreground: #0f766e;
+  --popover: #f0fdfa;
+  --popover-foreground: #134e4a;
+  --primary: #0d9488;
+  --primary-foreground: #ffffff;
+  --secondary: #06b6d4;
+  --secondary-foreground: #ffffff;
+  --muted: #e6fffa;
+  --muted-foreground: #134e4a;
+  --accent: #06b6d4;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #99f6e4;
+  --input: #f0fdfa;
+  --ring: rgba(13, 148, 136, 0.5);
+  --chart-1: #0d9488;
+  --chart-2: #06b6d4;
+  --chart-3: #0891b2;
+  --chart-4: #0e7490;
+  --chart-5: #155e75;
+  --sidebar: #ccfbf1;
+  --sidebar-foreground: #0f766e;
+  --sidebar-primary: #06b6d4;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #0d9488;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #99f6e4;
+  --sidebar-ring: rgba(13, 148, 136, 0.5);
+}
+
+/* Added sunset theme with warm orange-pink color palette */
+.sunset {
+  --background: #fef7ed;
+  --foreground: #9a3412;
+  --card: #fed7aa;
+  --card-foreground: #c2410c;
+  --popover: #fef7ed;
+  --popover-foreground: #9a3412;
+  --primary: #ea580c;
+  --primary-foreground: #ffffff;
+  --secondary: #f59e0b;
+  --secondary-foreground: #ffffff;
+  --muted: #fef3c7;
+  --muted-foreground: #92400e;
+  --accent: #f59e0b;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #fde68a;
+  --input: #fef7ed;
+  --ring: rgba(234, 88, 12, 0.5);
+  --chart-1: #ea580c;
+  --chart-2: #f59e0b;
+  --chart-3: #f97316;
+  --chart-4: #fb923c;
+  --chart-5: #fdba74;
+  --sidebar: #fed7aa;
+  --sidebar-foreground: #c2410c;
+  --sidebar-primary: #f59e0b;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ea580c;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #fde68a;
+  --sidebar-ring: rgba(234, 88, 12, 0.5);
 }
 
 @theme inline {
