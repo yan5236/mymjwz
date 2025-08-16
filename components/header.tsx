@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Quote, Menu, Home, Heart, Shuffle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import { ThemeToggle } from "@/components/theme-toggle"
 import Link from "next/link"
 
 export function Header() {
@@ -30,9 +31,6 @@ export function Header() {
             <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
               首页
             </Link>
-            <Link href="/?category=励志" className="text-muted-foreground hover:text-foreground transition-colors">
-              分类
-            </Link>
             <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
               收藏
             </Link>
@@ -44,10 +42,12 @@ export function Header() {
             >
               <Link href={getRandomQuote()}>随机一句</Link>
             </Button>
+            <ThemeToggle />
           </nav>
 
           {/* Mobile Navigation */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-2">
+            <ThemeToggle />
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="sm" className="h-9 w-9 p-0">
@@ -70,14 +70,6 @@ export function Header() {
                   >
                     <Home className="h-5 w-5" />
                     首页
-                  </Link>
-                  <Link
-                    href="/?category=励志"
-                    onClick={closeSheet}
-                    className="flex items-center gap-3 text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
-                  >
-                    <Quote className="h-5 w-5" />
-                    分类浏览
                   </Link>
                   <Link
                     href="#"
