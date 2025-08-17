@@ -6,28 +6,38 @@ import { XIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Sheet 组件系统 - 基于 Radix UI Dialog 的侧边栏/抽屉组件
+ * 提供从四个方向滑入的面板功能，常用于移动端导航或表单
+ */
+
+/** Sheet 根组件 - 提供 Sheet 上下文 */
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />
 }
 
+/** Sheet 触发器 - 用于打开 Sheet 的按钮或元素 */
 function SheetTrigger({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />
 }
 
+/** Sheet 关闭按钮 - 用于关闭 Sheet 的按钮 */
 function SheetClose({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Close>) {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />
 }
 
+/** Sheet 传送门 - 将 Sheet 内容渲染到 document.body */
 function SheetPortal({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Portal>) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />
 }
 
+/** Sheet 遮罩层 - 半透明背景遮罩，点击可关闭 Sheet */
 function SheetOverlay({
   className,
   ...props
@@ -44,6 +54,12 @@ function SheetOverlay({
   )
 }
 
+/**
+ * Sheet 内容容器 - 实际的面板内容
+ * @param side - Sheet 滑入方向：'top' | 'right' | 'bottom' | 'left'
+ * @param className - 额外的 CSS 类名
+ * @param children - 子组件
+ */
 function SheetContent({
   className,
   children,
@@ -81,6 +97,7 @@ function SheetContent({
   )
 }
 
+/** Sheet 头部 - 用于放置标题和描述 */
 function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -91,6 +108,7 @@ function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/** Sheet 底部 - 用于放置操作按钮 */
 function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -101,6 +119,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/** Sheet 标题 - 可访问性友好的标题组件 */
 function SheetTitle({
   className,
   ...props
@@ -114,6 +133,7 @@ function SheetTitle({
   )
 }
 
+/** Sheet 描述 - 用于补充说明 Sheet 内容 */
 function SheetDescription({
   className,
   ...props

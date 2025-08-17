@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Work_Sans, Open_Sans } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
+import { PageTransition } from "@/components/page-transition"
 import "./globals.css"
 
 const workSans = Work_Sans({
@@ -31,7 +32,9 @@ export default function RootLayout({
     <html lang="zh-CN" className={`${workSans.variable} ${openSans.variable}`}>
       <body className="font-sans antialiased">
         <ThemeProvider defaultTheme="light" storageKey="quotes-ui-theme">
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
         </ThemeProvider>
       </body>
     </html>

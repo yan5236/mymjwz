@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import { QuoteDetail } from "@/components/quote-detail"
 import { RelatedQuotes } from "@/components/related-quotes"
+import { Footer } from "@/components/footer"
 import { getQuotes } from "@/lib/quotes-data"
 import { getQuoteFromMarkdown } from "@/lib/quote-markdown-loader"
 import type { Metadata } from "next"
@@ -37,13 +38,14 @@ export default async function QuotePage({ params }: QuotePageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-background flex flex-col">
+      <main className="container mx-auto px-4 py-8 flex-1">
         <div className="max-w-4xl mx-auto space-y-12">
           <QuoteDetail quote={quote} />
           <RelatedQuotes currentQuote={quote} allQuotes={allQuotes} />
         </div>
       </main>
+      <Footer />
     </div>
   )
 }

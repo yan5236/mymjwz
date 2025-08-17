@@ -6,12 +6,19 @@ import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * DropdownMenu 下拉菜单组件系统 - 基于 Radix UI DropdownMenu
+ * 提供可访问性友好的下拉菜单功能，支持多级子菜单、复选框和单选按钮
+ */
+
+/** DropdownMenu 根组件 - 提供下拉菜单上下文 */
 function DropdownMenu({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {
   return <DropdownMenuPrimitive.Root data-slot="dropdown-menu" {...props} />
 }
 
+/** DropdownMenu 传送门 - 将菜单内容渲染到 document.body */
 function DropdownMenuPortal({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
@@ -20,6 +27,7 @@ function DropdownMenuPortal({
   )
 }
 
+/** DropdownMenu 触发器 - 用于打开下拉菜单的按钮 */
 function DropdownMenuTrigger({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
@@ -31,6 +39,11 @@ function DropdownMenuTrigger({
   )
 }
 
+/**
+ * DropdownMenu 内容容器 - 实际的下拉菜单内容
+ * @param className - 额外的 CSS 类名
+ * @param sideOffset - 与触发器的间距，默认 4px
+ */
 function DropdownMenuContent({
   className,
   sideOffset = 4,
@@ -51,6 +64,7 @@ function DropdownMenuContent({
   )
 }
 
+/** DropdownMenu 组 - 用于将相关菜单项分组 */
 function DropdownMenuGroup({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Group>) {
@@ -59,6 +73,12 @@ function DropdownMenuGroup({
   )
 }
 
+/**
+ * DropdownMenu 菜单项 - 可点击的菜单选项
+ * @param className - 额外的 CSS 类名
+ * @param inset - 是否缩进排列
+ * @param variant - 样式变体：'default' | 'destructive'
+ */
 function DropdownMenuItem({
   className,
   inset,
@@ -82,6 +102,11 @@ function DropdownMenuItem({
   )
 }
 
+/**
+ * DropdownMenu 复选框项 - 支持选中/取消选中的菜单项
+ * @param className - 额外的 CSS 类名
+ * @param checked - 是否选中
+ */
 function DropdownMenuCheckboxItem({
   className,
   children,
@@ -108,6 +133,7 @@ function DropdownMenuCheckboxItem({
   )
 }
 
+/** DropdownMenu 单选组 - 用于将单选项分组 */
 function DropdownMenuRadioGroup({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>) {
@@ -119,6 +145,10 @@ function DropdownMenuRadioGroup({
   )
 }
 
+/**
+ * DropdownMenu 单选项 - 在一组中只能选中一个的菜单项
+ * @param className - 额外的 CSS 类名
+ */
 function DropdownMenuRadioItem({
   className,
   children,
@@ -143,6 +173,11 @@ function DropdownMenuRadioItem({
   )
 }
 
+/**
+ * DropdownMenu 标签 - 用于显示分组标题或说明
+ * @param className - 额外的 CSS 类名
+ * @param inset - 是否缩进排列
+ */
 function DropdownMenuLabel({
   className,
   inset,
@@ -163,6 +198,7 @@ function DropdownMenuLabel({
   )
 }
 
+/** DropdownMenu 分隔线 - 用于分隔不同的菜单组 */
 function DropdownMenuSeparator({
   className,
   ...props
@@ -176,6 +212,10 @@ function DropdownMenuSeparator({
   )
 }
 
+/**
+ * DropdownMenu 快捷键显示 - 显示菜单项对应的快捷键
+ * @param className - 额外的 CSS 类名
+ */
 function DropdownMenuShortcut({
   className,
   ...props
@@ -192,12 +232,18 @@ function DropdownMenuShortcut({
   )
 }
 
+/** DropdownMenu 子菜单 - 用于创建多级子菜单 */
 function DropdownMenuSub({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
   return <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />
 }
 
+/**
+ * DropdownMenu 子菜单触发器 - 用于打开子菜单的菜单项
+ * @param className - 额外的 CSS 类名
+ * @param inset - 是否缩进排列
+ */
 function DropdownMenuSubTrigger({
   className,
   inset,
@@ -222,6 +268,10 @@ function DropdownMenuSubTrigger({
   )
 }
 
+/**
+ * DropdownMenu 子菜单内容 - 子菜单的内容容器
+ * @param className - 额外的 CSS 类名
+ */
 function DropdownMenuSubContent({
   className,
   ...props

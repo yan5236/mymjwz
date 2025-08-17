@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Quote, Menu, Home, Heart, Shuffle } from "lucide-react"
+import { Quote, Menu, Home, Heart, Shuffle, Info } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -15,13 +15,19 @@ export function Header() {
     setMounted(true)
   }, [])
 
-  const getRandomQuote = () => {
-    const randomId = Math.floor(Math.random() * 10) + 1
-    return `/quote/${randomId}`
-  }
-
-  const handleRandomQuote = () => {
-    window.location.href = getRandomQuote()
+  const handleRandomQuote = async () => {
+    try {
+      const response = await fetch('/api/random-quote')
+      const data = await response.json()
+      
+      if (data.id) {
+        window.location.href = `/quote/${data.id}`
+      } else {
+        console.error('Failed to get random quote:', data.error)
+      }
+    } catch (error) {
+      console.error('Error fetching random quote:', error)
+    }
   }
 
   const closeSheet = () => setIsOpen(false)
@@ -30,23 +36,29 @@ export function Header() {
     <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <Quote className="h-8 w-8 text-primary" />
-            <span className="text-xl font-serif font-bold text-card-foreground">名言名句网</span>
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-all duration-300 hover:scale-105">
+            <Quote className="h-8 w-8 text-primary transition-all duration-300 hover:rotate-12" />
+            <span className="text-xl font-serif font-bold text-card-foreground transition-all duration-300">名言名句网</span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
-              首页
+            <Link href="/" className="text-muted-foreground hover:text-foreground transition-all duration-300 hover:scale-110 relative group">
+              <span>首页</span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-              收藏
+            <Link href="/favorites" className="text-muted-foreground hover:text-foreground transition-all duration-300 hover:scale-110 relative group">
+              <span>收藏</span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            <Link href="/about" className="text-muted-foreground hover:text-foreground transition-all duration-300 hover:scale-110 relative group">
+              <span>关于</span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Button
               variant="outline"
               size="sm"
-              className="hover:bg-accent hover:text-accent-foreground transition-colors bg-transparent"
+              className="hover:bg-accent hover:text-accent-foreground transition-all duration-300 bg-transparent hover:scale-105 hover:shadow-md"
               onClick={mounted ? handleRandomQuote : undefined}
             >
               随机一句
@@ -75,22 +87,30 @@ export function Header() {
                   <Link
                     href="/"
                     onClick={closeSheet}
-                    className="flex items-center gap-3 text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
+                    className="flex items-center gap-3 text-lg font-medium text-foreground hover:text-primary transition-all duration-300 py-2 hover:scale-105 hover:bg-accent/50 rounded-lg px-2"
                   >
-                    <Home className="h-5 w-5" />
+                    <Home className="h-5 w-5 transition-all duration-300" />
                     首页
                   </Link>
                   <Link
-                    href="#"
+                    href="/favorites"
                     onClick={closeSheet}
-                    className="flex items-center gap-3 text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
+                    className="flex items-center gap-3 text-lg font-medium text-foreground hover:text-primary transition-all duration-300 py-2 hover:scale-105 hover:bg-accent/50 rounded-lg px-2"
                   >
-                    <Heart className="h-5 w-5" />
+                    <Heart className="h-5 w-5 transition-all duration-300" />
                     我的收藏
+                  </Link>
+                  <Link
+                    href="/about"
+                    onClick={closeSheet}
+                    className="flex items-center gap-3 text-lg font-medium text-foreground hover:text-primary transition-all duration-300 py-2 hover:scale-105 hover:bg-accent/50 rounded-lg px-2"
+                  >
+                    <Info className="h-5 w-5 transition-all duration-300" />
+                    关于我们
                   </Link>
                   <div className="pt-4 border-t border-border">
                     <Button 
-                      className="w-full justify-start gap-3 bg-transparent" 
+                      className="w-full justify-start gap-3 bg-transparent hover:scale-105 transition-all duration-300" 
                       variant="outline"
                       onClick={() => {
                         if (mounted) {
@@ -99,7 +119,7 @@ export function Header() {
                         }
                       }}
                     >
-                      <Shuffle className="h-5 w-5" />
+                      <Shuffle className="h-5 w-5 transition-all duration-300" />
                       随机一句
                     </Button>
                   </div>
