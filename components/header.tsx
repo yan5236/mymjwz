@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Quote, Menu, Home, Heart, Shuffle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet"
@@ -9,10 +9,19 @@ import Link from "next/link"
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const getRandomQuote = () => {
     const randomId = Math.floor(Math.random() * 10) + 1
     return `/quote/${randomId}`
+  }
+
+  const handleRandomQuote = () => {
+    window.location.href = getRandomQuote()
   }
 
   const closeSheet = () => setIsOpen(false)
@@ -35,12 +44,12 @@ export function Header() {
               收藏
             </Link>
             <Button
-              asChild
               variant="outline"
               size="sm"
               className="hover:bg-accent hover:text-accent-foreground transition-colors bg-transparent"
+              onClick={mounted ? handleRandomQuote : undefined}
             >
-              <Link href={getRandomQuote()}>随机一句</Link>
+              随机一句
             </Button>
             <ThemeToggle />
           </nav>
@@ -80,11 +89,18 @@ export function Header() {
                     我的收藏
                   </Link>
                   <div className="pt-4 border-t border-border">
-                    <Button asChild className="w-full justify-start gap-3 bg-transparent" variant="outline">
-                      <Link href={getRandomQuote()} onClick={closeSheet}>
-                        <Shuffle className="h-5 w-5" />
-                        随机一句
-                      </Link>
+                    <Button 
+                      className="w-full justify-start gap-3 bg-transparent" 
+                      variant="outline"
+                      onClick={() => {
+                        if (mounted) {
+                          handleRandomQuote()
+                          closeSheet()
+                        }
+                      }}
+                    >
+                      <Shuffle className="h-5 w-5" />
+                      随机一句
                     </Button>
                   </div>
                 </nav>

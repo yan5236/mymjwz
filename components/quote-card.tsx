@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
+import { getCategoryStyle } from "@/lib/utils"
 import type { Quote } from "@/lib/quotes-data"
 
 interface QuoteCardProps {
@@ -69,7 +70,7 @@ export function QuoteCard({ quote }: QuoteCardProps) {
               )}
             </div>
 
-            <Badge variant="secondary" className="bg-accent/10 text-accent-foreground flex-shrink-0">
+            <Badge variant="outline" className={`${getCategoryStyle(quote.category)} flex-shrink-0 text-xs font-medium px-2 py-1 shadow-sm`}>
               {quote.category}
             </Badge>
           </div>

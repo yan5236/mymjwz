@@ -2,12 +2,13 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, Heart, Share2, BookOpen, Copy, Check, Download, Palette } from "lucide-react"
+import { ArrowLeft, Heart, Share2, BookOpen, Copy, Check, Download } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ImagePreviewDialog } from "@/components/image-preview-dialog"
+import { getCategoryStyle } from "@/lib/utils"
 import type { Quote } from "@/lib/quotes-data"
 
 interface QuoteDetailProps {
@@ -18,7 +19,7 @@ export function QuoteDetail({ quote }: QuoteDetailProps) {
   const [copied, setCopied] = useState(false)
   const [liked, setLiked] = useState(false)
   const [isSharing, setIsSharing] = useState(false)
-  const [imageStyle, setImageStyle] = useState("classic")
+  const [showImagePreview, setShowImagePreview] = useState(false)
 
   const handleCopy = async () => {
     const text = `"${quote.content}" —— ${quote.author}${quote.source ? ` 《${quote.source}》` : ""}`
@@ -53,66 +54,7 @@ export function QuoteDetail({ quote }: QuoteDetailProps) {
   }
 
   const handleDownload = () => {
-    const canvas = document.createElement("canvas")
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    const scale = 2 // 高分辨率
-    canvas.width = 800 * scale
-    canvas.height = 600 * scale
-    ctx.scale(scale, scale)
-
-    // 根据样式设置背景
-    const styles = {
-      classic: { bg: "#ffffff", primary: "#164e63", secondary: "#6b7280" },
-      elegant: { bg: "#f8fafc", primary: "#0f172a", secondary: "#475569" },
-      warm: { bg: "#fef7ed", primary: "#9a3412", secondary: "#a16207" },
-    }
-
-    const style = styles[imageStyle as keyof typeof styles] || styles.classic
-
-    // 设置背景
-    ctx.fillStyle = style.bg
-    ctx.fillRect(0, 0, 800, 600)
-
-    // 设置文字样式
-    ctx.fillStyle = style.primary
-    ctx.font = "32px serif"
-    ctx.textAlign = "center"
-
-    // 绘制名言内容
-    const maxWidth = 700
-    const words = quote.content.split("")
-    let line = ""
-    let y = 200
-
-    for (let i = 0; i < words.length; i++) {
-      const testLine = line + words[i]
-      const metrics = ctx.measureText(testLine)
-      if (metrics.width > maxWidth && i > 0) {
-        ctx.fillText(line, 400, y)
-        line = words[i]
-        y += 50
-      } else {
-        line = testLine
-      }
-    }
-    ctx.fillText(line, 400, y)
-
-    // 绘制作者信息
-    ctx.font = "24px sans-serif"
-    ctx.fillStyle = style.secondary
-    ctx.fillText(`—— ${quote.author}`, 400, y + 80)
-
-    if (quote.source) {
-      ctx.fillText(`《${quote.source}》`, 400, y + 120)
-    }
-
-    // 下载图片
-    const link = document.createElement("a")
-    link.download = `名言-${quote.author}-${quote.id}.png`
-    link.href = canvas.toDataURL("image/png", 1.0)
-    link.click()
+    setShowImagePreview(true)
   }
 
   return (
@@ -157,7 +99,7 @@ export function QuoteDetail({ quote }: QuoteDetailProps) {
             <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:items-center md:justify-between gap-4">
               <div className="space-y-2">
                 <div className="text-sm text-muted-foreground">分类</div>
-                <Badge variant="secondary" className="bg-accent/10 text-accent-foreground text-sm">
+                <Badge variant="outline" className={`${getCategoryStyle(quote.category)} text-sm font-medium px-3 py-1 shadow-sm`}>
                   {quote.category}
                 </Badge>
               </div>
@@ -176,25 +118,6 @@ export function QuoteDetail({ quote }: QuoteDetailProps) {
 
             <Separator />
 
-            {/* 下载样式选择 */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Palette className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">图片样式:</span>
-              </div>
-              <Select value={imageStyle} onValueChange={setImageStyle}>
-                <SelectTrigger className="w-32">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="classic">经典</SelectItem>
-                  <SelectItem value="elegant">优雅</SelectItem>
-                  <SelectItem value="warm">温暖</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <Separator />
 
             {/* 操作按钮 */}
             <div className="flex flex-wrap items-center justify-center gap-3">
@@ -242,6 +165,13 @@ export function QuoteDetail({ quote }: QuoteDetailProps) {
           </div>
         </CardContent>
       </Card>
+
+      {/* 图片预览对话框 */}
+      <ImagePreviewDialog 
+        quote={quote}
+        open={showImagePreview}
+        onOpenChange={setShowImagePreview}
+      />
     </div>
   )
 }

@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation"
 import { QuoteDetail } from "@/components/quote-detail"
 import { RelatedQuotes } from "@/components/related-quotes"
-import { quotes } from "@/lib/quotes-data"
+import { getQuotes } from "@/lib/quotes-data"
+import { getQuoteFromMarkdown } from "@/lib/quote-markdown-loader"
 import type { Metadata } from "next"
 
 interface QuotePageProps {
@@ -11,7 +12,7 @@ interface QuotePageProps {
 }
 
 export async function generateMetadata({ params }: QuotePageProps): Promise<Metadata> {
-  const quote = quotes.find((q) => q.id === Number.parseInt(params.id))
+  const quote = await getQuoteFromMarkdown(Number.parseInt(params.id))
 
   if (!quote) {
     return {
@@ -25,8 +26,11 @@ export async function generateMetadata({ params }: QuotePageProps): Promise<Meta
   }
 }
 
-export default function QuotePage({ params }: QuotePageProps) {
-  const quote = quotes.find((q) => q.id === Number.parseInt(params.id))
+export default async function QuotePage({ params }: QuotePageProps) {
+  const [quote, allQuotes] = await Promise.all([
+    getQuoteFromMarkdown(Number.parseInt(params.id)),
+    getQuotes()
+  ])
 
   if (!quote) {
     notFound()
@@ -37,7 +41,7 @@ export default function QuotePage({ params }: QuotePageProps) {
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto space-y-12">
           <QuoteDetail quote={quote} />
-          <RelatedQuotes currentQuote={quote} />
+          <RelatedQuotes currentQuote={quote} allQuotes={allQuotes} />
         </div>
       </main>
     </div>
@@ -45,6 +49,7 @@ export default function QuotePage({ params }: QuotePageProps) {
 }
 
 export async function generateStaticParams() {
+  const quotes = await getQuotes()
   return quotes.map((quote) => ({
     id: quote.id.toString(),
   }))

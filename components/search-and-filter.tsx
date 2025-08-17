@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { categories } from "@/lib/quotes-data"
 import { useState } from "react"
 
 interface SearchAndFilterProps {
@@ -15,6 +14,7 @@ interface SearchAndFilterProps {
   onCategoryChange: (category: string) => void
   searchTerm: string
   selectedCategory: string
+  categories: string[]
 }
 
 export function SearchAndFilter({
@@ -22,6 +22,7 @@ export function SearchAndFilter({
   onCategoryChange,
   searchTerm,
   selectedCategory,
+  categories,
 }: SearchAndFilterProps) {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false)
 

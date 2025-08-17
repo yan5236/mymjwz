@@ -3,15 +3,16 @@ import { ArrowRight } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { quotes, type Quote } from "@/lib/quotes-data"
+import { type Quote } from "@/lib/quotes-data"
 
 interface RelatedQuotesProps {
   currentQuote: Quote
+  allQuotes: Quote[]
 }
 
-export function RelatedQuotes({ currentQuote }: RelatedQuotesProps) {
+export function RelatedQuotes({ currentQuote, allQuotes }: RelatedQuotesProps) {
   // 获取相关名言：同分类或有相同标签的名言
-  const relatedQuotes = quotes
+  const relatedQuotes = allQuotes
     .filter((quote) => {
       if (quote.id === currentQuote.id) return false
 
